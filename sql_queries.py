@@ -22,8 +22,7 @@ staging_events_table_create= ("""
 """)
 
 staging_songs_table_create = ("""
-CREATE TABLE IF NOT EXISTS staging_songs (song_id VARCHAR(20) NOT NULL PRIMARY KEY,
-										  title VARCHAR NOT NULL,
+CREATE TABLE IF NOT EXISTS staging_songs (song_id VARCHAR(20) NOT NULL PRIMARY KEY, title VARCHAR NOT NULL,
                                   		  artist_id VARCHAR(20) NOT NULL,
                                   		  year INTEGER,
                                   		  duration FLOAT);
@@ -78,6 +77,7 @@ CREATE TABLE IF NOT EXISTS time (timestamp BIGINT NOT NULL PRIMARY KEY,
 # STAGING TABLES
 
 staging_events_copy = ("""
+
 """).format()
 
 staging_songs_copy = ("""
