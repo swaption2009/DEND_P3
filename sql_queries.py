@@ -129,13 +129,13 @@ INSERT INTO songplays (start_time,
                        session_id, 
                        location, 
                        user_agent)
-SELECT TIMESTAMP 'epoch' + e.ts/1000 * interval '1 second', 
-       e.user_id, 
-       e.level, s.song_id, 
-       s.artist_id, 
-       e.session_id, 
-       e.location, 
-       e.user_agent
+SELECT DISTINCT TIMESTAMP 'epoch' + e.ts/1000 * interval '1 second', 
+                e.user_id, 
+                e.level, s.song_id, 
+                s.artist_id, 
+                e.session_id, 
+                e.location, 
+                e.user_agent
 FROM staging_events AS e
 JOIN staging_songs as s
 ON e.song = s.title;
@@ -143,13 +143,13 @@ ON e.song = s.title;
 
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
-SELECT user_id, first_name, last_name, gender, level
+SELECT DISTINCT user_id, first_name, last_name, gender, level
 FROM staging_events;
 """)
 
 song_table_insert = ("""
 INSERT INTO songs (song_id, title, artist_id, year, duration)
-SELECT song_id, title, artist_id, year, duration
+SELECT DISTINCT song_id, title, artist_id, year, duration
 FROM staging_songs;
 """)
 
@@ -159,13 +159,13 @@ INSERT INTO artists (artist_id,
                      artist_location, 
                      artist_latitude, 
                      artist_longitude)
-SELECT artist_id, artist_name, artist_location, artist_latitude, artist_longitude
+SELECT DISTINCT artist_id, artist_name, artist_location, artist_latitude, artist_longitude
 FROM staging_songs;
 """)
 
 time_table_insert = ("""
 INSERT INTO time (timestamp, hour, day, weekofyear, month, year, isoweekday)
-SELECT start_time, 
+SELECT DISTINCT start_time, 
        extract(hour from start_time), 
        extract(day from start_time), 
        extract(week from start_time),

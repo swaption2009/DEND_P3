@@ -4,12 +4,24 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
+    '''
+    Delete any tables before starting the operations
+
+    :param cur: server side object to get records streamed
+    :param conn: psycopg2 object connection to Redshift data warehouse
+    '''
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+    '''
+    Create staging, dimension, and fact tables before inserting any data
+
+    :param cur: server side object to get records streamed
+    :param conn: psycopg2 object connection to Redshift data warehouse
+    '''
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
